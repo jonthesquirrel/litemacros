@@ -10,5 +10,5 @@ IFMATCHES(%CHAT%,"^\/\!")
     LOG("args: %&args%")
     LOG("---")
     //debug end
-    EXEC("cmd_%&cmd%.txt","cmd_%&cmd%",%&args%)
+    EXEC("cmd_%&cmd%.txt","cmd_%&cmd%","%&args%")
 ENDIF
