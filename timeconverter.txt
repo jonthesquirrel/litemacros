@@ -1,0 +1,9 @@
+&str = $$[1]
+//<1m|1m20s|20s>
+LOG("str: %&str%")
+MATCH(%&str%,"(\d+)m",#min,1)
+MATCH(%&str%,"(\d+)s",#sec,1)
+LOG("m: %#min%")
+LOG("s: %#sec%)
+#total_sec = (#min * 60) + #sec
+LOG("total sec = %#total_sec%")
