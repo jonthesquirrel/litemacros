@@ -1,0 +1,10 @@
+IFMATCHES(%CHAT%,"^\/\!")
+    FILTER
+    UNSET(&cmd)
+    UNSET(&args)
+    MATCH(%CHAT%,"^\/\!(\w+)",&cmd,1)
+    MATCH(%CHAT%,"(?:^\/\!\w+\s)(.+)",&args,1)
+    LOG("cmd: %&cmd%")
+    LOG("args: %&args%")
+    EXEC("cmd_%&cmd%.txt","cmd_%&cmd%","%&args%")
+ENDIF
