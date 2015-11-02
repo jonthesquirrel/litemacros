@@ -1,0 +1,14 @@
+&mode = $$[1]
+IF(&mode = "on")
+    SET(@bangs_on)
+    LOG("bangs: on")
+ELSEIF(&mode = "off")
+    UNSET(@bangs_on)
+    LOG("bangs: off")
+ELSE
+    IF(@bangs_on)
+        LOG("bangs: on")
+    ELSE
+        LOG("bangs: off")
+    ENDIF
+ENDIF
