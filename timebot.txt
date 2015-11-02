@@ -1,6 +1,6 @@
-IF(@#time > 0)
-    #m = ((@#time - (@#time-(60*(@#time/60)))) / 60)
-    #s = (@#time-(60*(@#time/60)))
+IF(@#timebot_time > 0)
+    #m = ((@#timebot_time - (@#timebot_time-(60*(@#timebot_time/60)))) / 60)
+    #s = (@#timebot_time-(60*(@#timebot_time/60)))
     &human_time = ""
     IF(#m != 0)
         &human_time = "%&human_time%%#m%m"
@@ -15,19 +15,19 @@ ENDIF
 &arg_mode = $$[1]
 IF(&arg_mode = "set")
     UNSET(&arg_time)
-    UNSET(@#time)
+    UNSET(@#timebot_time)
     UNSET(#min)
     UNSET(#sec)
     &arg_time = $$[2]
     MATCH(%&arg_time%,"(\d+)m",#min,1)
     MATCH(%&arg_time%,"(\d+)s",#sec,1)
-    @#time = (#min * 60) + #sec
-    LOG("<timebot> started for %&arg_time% (%@#time%)")
+    @#timebot_time = (#min * 60) + #sec
+    LOG("<timebot> started for %&arg_time% (%@#timebot_time%)")
     //start FOR loop counting down
     //timer finishing logic
-    IF(&end_cmd);ECHO(&end_cmd);ENDIF
+    IF(@&timebot_cmd);ECHO(@&timebot_cmd);ENDIF
 ELSEIF(&arg_mode = "stop")
-    UNSET(@#time)
+    UNSET(@#timebot_time)
     LOG("<timebot> stopped")
 ELSEIF(&arg_mode = "add")
     UNSET(&arg_time)
@@ -35,7 +35,7 @@ ELSEIF(&arg_mode = "add")
     MATCH(%&arg_time%,"(\d+)m",#min,1)
     MATCH(%&arg_time%,"(\d+)s",#sec,1)
     #temp_time = (#min * 60) + #sec
-    INC(@#time,%#temp_time%)
+    INC(@#timebot_time,%#temp_time%)
     LOG("<timebot> added %&arg_time% to %&human_time%")
 ELSEIF(&arg_mode = "rem")
     UNSET(&arg_time)
@@ -43,20 +43,20 @@ ELSEIF(&arg_mode = "rem")
     MATCH(%&arg_time%,"(\d+)m",#min,1)
     MATCH(%&arg_time%,"(\d+)s",#sec,1)
     #temp_time = (#min * 60) + #sec
-    IF(#temp_time < @#time)
-        DEC(@#time,%#temp_time%)
+    IF(#temp_time < @#timebot_time)
+        DEC(@#timebot_time,%#temp_time%)
     ELSE
-        @#time = 0
+        @#timebot_time = 0
     ENDIF
     LOG("<timebot> removed %&arg_time% from %&human_time%")
 ELSEIF(&arg_mode = "end")
-    @#time = 0
+    @#timebot_time = 0
 ELSEIF(&arg_mode = "say")
     ECHO("<timebot> %&human_time%")
 ELSEIF(&arg_mode = "get")
     LOG("<timebot> %&human_time%")
 ELSEIF(&arg_mode = "cmd")
-    &end_cmd = $$[2]
+    @&timebot_cmd = $$[2]
 ELSE
     LOG("<timebot> usage: /!timer <set <Xm|Xs|XmXs>|cancel|end|add|rem|say|get|cmd [command for end]>")
     //TODO: pause|resume
