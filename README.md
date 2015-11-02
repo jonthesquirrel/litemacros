@@ -1,5 +1,5 @@
 # litemacros
-my macro system for the Macro/Keybind [Litemod](http://liteloader.com/mods)
+my macro system for the [Macro/Keybind](http://minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1275039) [Litemod](http://liteloader.com/mods)
 
 ### events:
 
