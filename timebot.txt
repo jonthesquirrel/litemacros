@@ -17,20 +17,24 @@ ELSE
 ENDIF
 
 IF(&args[0] = "set")
-    //cancel
+    EXEC("timebot.txt","timebot","halt")
     UNSET(@#timebot_time)
     UNSET(#min)
     UNSET(#sec)
     MATCH(%&args[1]%,"(\d+)m",#min,1)
     MATCH(%&args[1]%,"(\d+)s",#sec,1)
     @#timebot_time = (#min * 60) + #sec
-    LOG("<timebot> started for %&args[1]% (%@#timebot_time%)")
-    //start FOR loop counting down
-    //timer finishing logic
-    IF(@&timebot_cmd);ECHO(@&timebot_cmd);ENDIF
+    //move daemon start into start fn
+    LOG("<timebot> set to %&args[1]%")
+ELSEIF(&args[0] = "start")
+    EXEC("timebot_d.txt","timebot_d")
+    LOG("<timebot> started")
 ELSEIF(&args[0] = "stop")
-    UNSET(@#timebot_time)
+    STOP("timebot_d")
     LOG("<timebot> stopped")
+ELSEIF(&args[0] = "end")
+    @#timebot_time = 0
+    LOG("<timebot> ended")
 ELSEIF(&args[0] = "add")
     UNSET(#min)
     UNSET(#sec)
@@ -60,6 +64,5 @@ ELSEIF(&args[0] = "get")
 ELSEIF(&args[0] = "cmd")
     //JOIN(" ",&args[1-max],@&timebot_cmd)
 ELSE
-    LOG("<timebot> usage: /!timebot <set <Xm|Xs|XmXs>|cancel|end|add|rem|say|get|cmd [command for end]>")
-    //TODO: pause|resume
+    LOG("<timebot> usage: /!timebot <set <Xm|Xs|XmXs>|add|rem|stop|start|end|say|get|cmd [ending command or -timebot_cmd_x.txt]>")
 ENDIF
