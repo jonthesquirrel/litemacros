@@ -2,14 +2,15 @@ UNSET(&args)
 SPLIT(" ",$$[1],&args)
 
 IF(@#timebot_time > 0)
-    #m = ((@#timebot_time - (@#timebot_time-(60*(@#timebot_time/60)))) / 60)
-    #s = (@#timebot_time-(60*(@#timebot_time/60)))
+    //modulo
+    #min = ((@#timebot_time - (@#timebot_time-(60*(@#timebot_time/60)))) / 60)
+    #sec = (@#timebot_time-(60*(@#timebot_time/60)))
     &human_time = ""
-    IF(#m != 0)
-        &human_time = "%&human_time%%#m%m"
+    IF(#min != 0)
+        &human_time = "%&human_time%%#min%m"
     ENDIF
-    IF(#s != 0)
-        &human_time = "%&human_time%%#s%s"
+    IF(#sec != 0)
+        &human_time = "%&human_time%%#sec%s"
     ENDIF
 ELSE
     &human_time = "0s"
@@ -31,14 +32,16 @@ ELSEIF(&args[0] = "stop")
     UNSET(@#timebot_time)
     LOG("<timebot> stopped")
 ELSEIF(&args[0] = "add")
-    UNSET(&args[1])
+    UNSET(#min)
+    UNSET(#sec)
     MATCH(%&args[1]%,"(\d+)m",#min,1)
     MATCH(%&args[1]%,"(\d+)s",#sec,1)
     #temp_time = (#min * 60) + #sec
     INC(@#timebot_time,%#temp_time%)
     LOG("<timebot> added %&args[1]% to %&human_time%")
 ELSEIF(&args[0] = "rem")
-    UNSET(&args[1])
+    UNSET(#min)
+    UNSET(#sec)
     MATCH(%&args[1]%,"(\d+)m",#min,1)
     MATCH(%&args[1]%,"(\d+)s",#sec,1)
     #temp_time = (#min * 60) + #sec
