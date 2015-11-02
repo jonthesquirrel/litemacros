@@ -1,9 +1,29 @@
-&str = $$[1]
-//<1m|1m20s|20s>
-LOG("str: %&str%")
-MATCH(%&str%,"(\d+)m",#min,1)
-MATCH(%&str%,"(\d+)s",#sec,1)
-LOG("m: %#min%")
-LOG("s: %#sec%)
+LOG("---")
+&in = $$[1]
+//combine
+//<1m|1m20s|20s> => <60|80|20>
+LOG("in: %&in%")
+MATCH(%&in%,"(\d+)m",#min,1)
+MATCH(%&in%,"(\d+)s",#sec,1)
+LOG("min: %#min%")
+LOG("sec: %#sec%)
 #total_sec = (#min * 60) + #sec
-LOG("total sec = %#total_sec%")
+LOG("total sec: %#total_sec%")
+
+//extract
+//80 => 1m20s
+#m = ((#total_sec - (#total_sec-(60*(#total_sec/60)))) / 60)
+#s = (#total_sec-(60*(#total_sec/60)))
+//replacement for modulo: (a-(n*(a/n)))
+//#m = ((#total_sec - #total_sec % 60) / 60)
+//#s = (#total_sec % 60)
+LOG("m: %#m%")
+LOG("s: %#s%")
+&out = ""
+IF(#m != 0)
+    &out = "%&out%%#m%m"
+ENDIF
+IF(#s != 0)
+    &out = "%&out%%#s%s"
+ENDIF
+LOG("out: %&out%")
