@@ -1,4 +1,5 @@
-IFMATCHES(%CHAT%,"\!\w+")
+//use "!bang" to escape
+IFMATCHES(%CHAT%,"[^\"]\!\w+")
     UNSET(&bang)
     MATCH(%CHAT%,"\!(\w+)",&bang,1)
     LOG("bang: %&bang%")
