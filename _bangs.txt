@@ -1,0 +1,6 @@
+IFMATCHES(%CHAT%,"\!\w+")
+    UNSET(&bang)
+    MATCH(%CHAT%,"\!(\w+)",&bang,1)
+    LOG("bang: %&bang%")
+    EXEC("bang_%&bang%.txt","bang_%&bang%")
+ENDIF
