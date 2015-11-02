@@ -4,7 +4,6 @@ IFMATCHES(%CHAT%,"^\/\!")
     UNSET(&args)
     MATCH(%CHAT%,"^\/\!(\w+)",&cmd,1)
     MATCH(%CHAT%,"(?:^\/\!\w+\s)(.+)",&args,1)
-    REPLACE(&args," ",",")
     //debug start
     LOG("===")
     LOG("cmd: %&cmd%")
