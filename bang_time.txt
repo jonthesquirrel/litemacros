@@ -1,0 +1,2 @@
+//TODO: anti-spam wait lock?
+EXEC("timebot.txt","timebot","say")
