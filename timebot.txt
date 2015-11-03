@@ -70,12 +70,20 @@ ELSEIF(&args[0] = "say")
     ELSE
         ECHO("%@&timebot_prefix% %&human_time% (paused)")
     ENDIF
-ELSEIF(&args[0] = "get")
-    IF(@timebot_active)
-        LOG("&r%@&timebot_prefix% %&human_time%")
-    ELSE
-        LOG("&r%@&timebot_prefix% %&human_time% (paused)")
+ELSEIF(&args[0] = "stat")
+//    IF(@timebot_active)
+//        LOG("&r%@&timebot_prefix% %&human_time%")
+//    ELSE
+//        LOG("&r%@&timebot_prefix% %&human_time% (paused)")
+//    ENDIF
+    &str = "&r%@&timebot_prefix% %&human_time%"
+    IF(!@timebot_active)
+        &str = "%&str% (paused)"
     ENDIF
+    IF(@timebot_mute)
+        &str = "%&str% [muted]"
+    ENDIF
+    LOG("%&str%")
 ELSEIF(&args[0] = "mute")
     IF(&args[1] = "on")
         SET(@timebot_mute)
@@ -107,5 +115,5 @@ ELSEIF(&args[0] = "cmd")
     JOIN(" ",&args,@&timebot_cmd)
     LOG("&r%@&timebot_prefix% command set: %@&timebot_cmd%")
 ELSE
-    LOG("&r%@&timebot_prefix% usage: /!timebot <<set|add|rem> <Xm|Xs|XmXs>|stop|start|end|say|get|mute [on|off]|prefix [<prefix>|reset]|cmd [<cmd>|reset|-file]>")
+    LOG("&r%@&timebot_prefix% usage: /!timebot <<set|add|rem> <Xm|Xs|XmXs>|stop|start|end|say|stat|mute [on|off]|prefix [<prefix>|reset]|cmd [<cmd>|reset|-file]>")
 ENDIF
