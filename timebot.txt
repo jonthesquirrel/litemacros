@@ -71,18 +71,18 @@ ELSEIF(&args[0] = "say")
         ECHO("%@&timebot_prefix% %&human_time% (paused)")
     ENDIF
 ELSEIF(&args[0] = "stat")
-//    IF(@timebot_active)
-//        LOG("&r%@&timebot_prefix% %&human_time%")
-//    ELSE
-//        LOG("&r%@&timebot_prefix% %&human_time% (paused)")
-//    ENDIF
-    &str = "&r%@&timebot_prefix% %&human_time%"
+    &str = "&r%@&timebot_prefix%"
+    &str = "%&str% %&human_time%"
     IF(!@timebot_active)
         &str = "%&str% (paused)"
     ENDIF
     IF(@timebot_mute)
         &str = "%&str% [muted]"
     ENDIF
+    IF(@&timebot_cmd)
+        &str = "%&str% [cmd: %@&timebot_cmd% ]"
+    ENDIF
+
     LOG("%&str%")
 ELSEIF(&args[0] = "mute")
     IF(&args[1] = "on")
@@ -100,20 +100,21 @@ ELSEIF(&args[0] = "mute")
     ENDIF
 ELSEIF(&args[0] = "prefix")
     IF(&args[1])
-        IF(&args[1] = "reset")
-            @&timebot_prefix = "<timebot>"
-            LOG("&r%@&timebot_prefix% <- prefix reset")
-        ELSE
-            @&timebot_prefix = "%&args[1]%"
-            LOG("&r%@&timebot_prefix% <- prefix set")
-        ENDIF
+        @&timebot_prefix = "%&args[1]%"
+        LOG("&r%@&timebot_prefix% <- prefix set")
     ELSE
-        LOG("&r%@&timebot_prefix% <- prefix")
+        @&timebot_prefix = "<timebot>"
+        LOG("&r%@&timebot_prefix% <- prefix reset")
     ENDIF
 ELSEIF(&args[0] = "cmd")
-    UNSET(&args[0])
-    JOIN(" ",&args,@&timebot_cmd)
-    LOG("&r%@&timebot_prefix% command set: %@&timebot_cmd%")
+    IF(&args[1])
+        UNSET(&args[0])
+        JOIN(" ",&args,@&timebot_cmd)
+        LOG("&r%@&timebot_prefix% command set: %@&timebot_cmd%")
+    ELSE
+        UNSET(@&timebot_cmd)
+        LOG("&r%@&timebot_prefix% command reset")
+    ENDIF
 ELSE
-    LOG("&r%@&timebot_prefix% usage: /!timebot <<set|add|rem> <Xm|Xs|XmXs>|stop|start|end|say|stat|mute [on|off]|prefix [<prefix>|reset]|cmd [<cmd>|reset|-file]>")
+    LOG("&r%@&timebot_prefix% usage: /!timebot <set|add|rem> <Xm|Xs|XmXs>|stop|start|end|say|stat|mute [on|off]|prefix [prefix]|cmd [command|-file]")
 ENDIF
