@@ -89,8 +89,9 @@ ELSEIF(&args[0] = "prefix")
         LOG("&r%@&timebot_prefix% <- prefix")
     ENDIF
 ELSEIF(&args[0] = "cmd")
-    //JOIN(" ",&args[1-max],@&timebot_cmd)
-    //if [-]cmd then EXEC("timebot_cmd_[cmd].txt","timebot_cmd")
+    UNSET(&args[0])
+    JOIN(" ",&args,@&timebot_cmd)
+    LOG("&r%@&timebot_prefix% command set: %@&timebot_cmd%")
 ELSE
-    LOG("<timebot> usage: /!timebot <<set|add|rem> <Xm|Xs|XmXs>|stop|start|end|say|get|prefix [<prefix>|reset]|cmd [ending_command|-file]>")
+    LOG("&r%@&timebot_prefix% usage: /!timebot <<set|add|rem> <Xm|Xs|XmXs>|stop|start|end|say|get|prefix [<prefix>|reset]|cmd [<cmd>|reset|-file]>")
 ENDIF
