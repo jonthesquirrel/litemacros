@@ -1,9 +1,13 @@
 DO
     IF(!@timebot_mute)
-        IF(((@#timebot_time-(600*(@#timebot_time/600)))) = 0 || @#timebot_time = 300 || @#timebot_time = 180 || @#timebot_time = 60 || @#timebot_time = 30 || @#timebot_time = 10 || @#timebot_time <= 5) && @#timebot_time > 0)
+        #a = @#timebot_time
+        //IF(( (#a-(600*(#a/600))) = 0 || #a = 300 || #a = 180 || #a = 60 || #a = 30 || #a = 10 || #a <= 5) && #a > 0)
+        IF( (#a-(600*(#a/600))) = 0)
+        //IF(#a > 0)
             //announce for: multiples of 10m, 5m, 3m, 1m, 30s, 10s, <= 5s, and not less than 0
             EXEC("timebot.txt","timebot","say")
         ENDIF
+        LOG(%#a%)
     ENDIF
     DEC(@#timebot_time)
     WAIT(1)
