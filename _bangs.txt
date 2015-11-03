@@ -1,10 +1,15 @@
 //use "!bang" to escape
 IFMATCHES(%CHAT%,"[^\"]\!\w+")
     IF(@bangs_on)
-        UNSET(&bang)
-        MATCH(%CHAT%,"\!(\w+)",&bang,1)
-        LOG("bang: %&bang%")
-        EXEC("bang_%&bang%.txt","bang_%&bang%")
+        IF(!@bangs_lock)
+            SET(@bangs_lock)
+            UNSET(&bang)
+            MATCH(%CHAT%,"\!(\w+)",&bang,1)
+            LOG("bang: %&bang%")
+            EXEC("bang_%&bang%.txt","bang_%&bang%")
+            WAIT(1)
+            UNSET(@bangs_lock)
+        ENDIF
     ENDIF
 ENDIF
 //TODO: match and run multiple bangs at once
