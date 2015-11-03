@@ -1,3 +1,5 @@
+//modulo alternative: a%b = (a-(b*(a/b)))
+
 LOG("---")
 &in = $$[1]
 //combine
