@@ -24,8 +24,8 @@ IF(&args[0] = "set")
     MATCH(%&args[1]%,"(\d+)m",#min,1)
     MATCH(%&args[1]%,"(\d+)s",#sec,1)
     @#timebot_time = (#min * 60) + #sec
-    //move daemon start into start fn
-    LOG("<timebot> set to %&args[1]%")
+    LOG("<timebot> set to %&args[1]% and started")
+    EXEC("timebot_d.txt","timebot_d")
 ELSEIF(&args[0] = "start")
     EXEC("timebot_d.txt","timebot_d")
     LOG("<timebot> started")
