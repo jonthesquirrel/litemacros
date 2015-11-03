@@ -1,5 +1,8 @@
 UNSET(&args)
 SPLIT(" ",$$[1],&args)
+IF(!@&timebot_prefix)
+    @&timebot_prefix = "<timebot>"
+ENDIF
 
 IF(@#timebot_time > 0)
     //modulo
@@ -24,17 +27,17 @@ IF(&args[0] = "set")
     MATCH(%&args[1]%,"(\d+)m",#min,1)
     MATCH(%&args[1]%,"(\d+)s",#sec,1)
     @#timebot_time = (#min * 60) + #sec
-    LOG("<timebot> set to %&args[1]% and started")
+    LOG("&r%@&timebot_prefix% set to %&args[1]% and started")
     EXEC("timebot_d.txt","timebot_d")
 ELSEIF(&args[0] = "start")
     EXEC("timebot_d.txt","timebot_d")
-    LOG("<timebot> started")
+    LOG("&r%@&timebot_prefix% started")
 ELSEIF(&args[0] = "stop")
     STOP("timebot_d")
-    LOG("<timebot> stopped")
+    LOG("&r%@&timebot_prefix% stopped")
 ELSEIF(&args[0] = "end")
     @#timebot_time = 0
-    LOG("<timebot> ended")
+    LOG("&r%@&timebot_prefix% ended")
 ELSEIF(&args[0] = "add")
     UNSET(#min)
     UNSET(#sec)
@@ -42,7 +45,7 @@ ELSEIF(&args[0] = "add")
     MATCH(%&args[1]%,"(\d+)s",#sec,1)
     #temp_time = (#min * 60) + #sec
     INC(@#timebot_time,%#temp_time%)
-    LOG("<timebot> added %&args[1]% to %&human_time%")
+    LOG("&r%@&timebot_prefix% added %&args[1]% to %&human_time%")
 ELSEIF(&args[0] = "rem")
     UNSET(#min)
     UNSET(#sec)
@@ -54,16 +57,28 @@ ELSEIF(&args[0] = "rem")
     ELSE
         @#timebot_time = 0
     ENDIF
-    LOG("<timebot> removed %&args[1]% from %&human_time%")
+    LOG("&r%@&timebot_prefix% removed %&args[1]% from %&human_time%")
 ELSEIF(&args[0] = "end")
     @#timebot_time = 0
 ELSEIF(&args[0] = "say")
-    ECHO("<timebot> %&human_time%")
+    ECHO("%@&timebot_prefix% %&human_time%")
 ELSEIF(&args[0] = "get")
-    LOG("<timebot> %&human_time%")
+    LOG("&r%@&timebot_prefix% %&human_time%")
+ELSEIF(&args[0] = "prefix")
+    IF(&args[1])
+        IF(&args[1] = "reset")
+            @&timebot_prefix = "<timebot>"
+            LOG("&r%@&timebot_prefix% <- prefix reset")
+        ELSE
+            @&timebot_prefix = "%&args[1]%"
+            LOG("&r%@&timebot_prefix% <- prefix set")
+        ENDIF
+    ELSE
+        LOG("&r%@&timebot_prefix% <- prefix")
+    ENDIF
 ELSEIF(&args[0] = "cmd")
     //JOIN(" ",&args[1-max],@&timebot_cmd)
     //if [-]cmd then EXEC("timebot_cmd_[cmd].txt","timebot_cmd")
 ELSE
-    LOG("<timebot> usage: /!timebot <set <Xm|Xs|XmXs>|add|rem|stop|start|end|say|get|cmd [ending_command|-file]>")
+    LOG("<timebot> usage: /!timebot <<set|add|rem> <Xm|Xs|XmXs>|stop|start|end|say|get|prefix [<prefix>|reset]|cmd [ending_command|-file]>")
 ENDIF
