@@ -7,3 +7,4 @@ IFMATCHES(%CHAT%,"[^\"]\!\w+")
         EXEC("bang_%&bang%.txt","bang_%&bang%")
     ENDIF
 ENDIF
+//TODO: match and run multiple bangs at once
