@@ -1,14 +1,20 @@
 DO
-    IF(((@#timebot_time-(600*(@#timebot_time/600)))) = 0 || @#timebot_time = 300 || @#timebot_time = 180 || @#timebot_time = 60 || @#timebot_time = 30 || @#timebot_time = 10 || @#timebot_time <= 5) && @#timebot_time > 0)
-        //announce for: multiples of 10m, 5m, 3m, 1m, 30s, 10s, <= 5s, and not less than 0
-        EXEC("timebot.txt","timebot","say")
+    IF(!@timebot_mute)
+        IF(((@#timebot_time-(600*(@#timebot_time/600)))) = 0 || @#timebot_time = 300 || @#timebot_time = 180 || @#timebot_time = 60 || @#timebot_time = 30 || @#timebot_time = 10 || @#timebot_time <= 5) && @#timebot_time > 0)
+            //announce for: multiples of 10m, 5m, 3m, 1m, 30s, 10s, <= 5s, and not less than 0
+            EXEC("timebot.txt","timebot","say")
+        ENDIF
     ENDIF
     DEC(@#timebot_time)
     WAIT(1)
 UNTIL(@#timebot_time < 1)
 
 UNSET(@timebot_active)
-ECHO("%@&timebot_prefix% TIME UP!")
+
+IF(!@timebot_mute)
+    ECHO("%@&timebot_prefix% TIME UP!")
+ENDIF
+
 //WAIT("500ms")
 IF(@&timebot_cmd)
     ECHO("%@&timebot_cmd%")
