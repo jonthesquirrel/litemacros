@@ -76,6 +76,20 @@ ELSEIF(&args[0] = "get")
     ELSE
         LOG("&r%@&timebot_prefix% %&human_time% (paused)")
     ENDIF
+ELSEIF(&args[0] = "mute")
+    IF(&args[1] = "on")
+        SET(@timebot_mute)
+        LOG("&r%@&timebot_prefix% mute set on")
+    ELSEIF(&args[1] = "off")
+        UNSET(@timebot_mute)
+        LOG("&r%@&timebot_prefix% mute set off")
+    ELSE
+        IF(@timebot_mute)
+            LOG("&r%@&timebot_prefix% mute is on")
+        ELSE
+            LOG("&r%@&timebot_prefix% mute is off")
+        ENDIF
+    ENDIF
 ELSEIF(&args[0] = "prefix")
     IF(&args[1])
         IF(&args[1] = "reset")
@@ -93,5 +107,5 @@ ELSEIF(&args[0] = "cmd")
     JOIN(" ",&args,@&timebot_cmd)
     LOG("&r%@&timebot_prefix% command set: %@&timebot_cmd%")
 ELSE
-    LOG("&r%@&timebot_prefix% usage: /!timebot <<set|add|rem> <Xm|Xs|XmXs>|stop|start|end|say|get|prefix [<prefix>|reset]|cmd [<cmd>|reset|-file]>")
+    LOG("&r%@&timebot_prefix% usage: /!timebot <<set|add|rem> <Xm|Xs|XmXs>|stop|start|end|say|get|mute [on|off]|prefix [<prefix>|reset]|cmd [<cmd>|reset|-file]>")
 ENDIF
