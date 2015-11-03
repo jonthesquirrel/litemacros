@@ -63,6 +63,7 @@ ELSEIF(&args[0] = "get")
     LOG("<timebot> %&human_time%")
 ELSEIF(&args[0] = "cmd")
     //JOIN(" ",&args[1-max],@&timebot_cmd)
+    //if [-]cmd then EXEC("timebot_cmd_[cmd].txt","timebot_cmd")
 ELSE
-    LOG("<timebot> usage: /!timebot <set <Xm|Xs|XmXs>|add|rem|stop|start|end|say|get|cmd [ending command or -timebot_cmd_x.txt]>")
+    LOG("<timebot> usage: /!timebot <set <Xm|Xs|XmXs>|add|rem|stop|start|end|say|get|cmd [ending_command|-file]>")
 ENDIF
