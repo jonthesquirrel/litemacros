@@ -66,9 +66,17 @@ ELSEIF(&args[0] = "rem")
 ELSEIF(&args[0] = "end")
     @#timebot_time = 0
 ELSEIF(&args[0] = "say")
-    ECHO("%@&timebot_prefix% %&human_time%")
+    IF(@timebot_active)
+        ECHO("%@&timebot_prefix% %&human_time%")
+    ELSE
+        ECHO("%@&timebot_prefix% %&human_time% (paused)")
+    ENDIF
 ELSEIF(&args[0] = "get")
-    LOG("&r%@&timebot_prefix% %&human_time%")
+    IF(@timebot_active)
+        LOG("&r%@&timebot_prefix% %&human_time%")
+    ELSE
+        LOG("&r%@&timebot_prefix% %&human_time% (paused)")
+    ENDIF
 ELSEIF(&args[0] = "prefix")
     IF(&args[1])
         IF(&args[1] = "reset")
