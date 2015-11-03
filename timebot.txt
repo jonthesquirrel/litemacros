@@ -20,6 +20,8 @@ IF(@#timebot_time > 0)
 ELSE
     &human_time = "0s"
 ENDIF
+RANDOM(#rand,99999999,11111111)
+&random = "%#rand%"
 
 IF(&args[0] = "set")
     UNSET(#min)
@@ -34,9 +36,9 @@ ELSEIF(&args[0] = "start")
     SET(@timebot_active)
     EXEC("timebot_d.txt","timebot_d")
     LOG("&r%@&timebot_prefix% started")
-    IF(!@timebot_mute)
-        ECHO("%@&timebot_prefix% timer started for %@&human_time%")
-    ENDIF
+//    IF(!@timebot_mute)
+//        ECHO("%@&timebot_prefix% timer started for %@&human_time%")
+//    ENDIF
 ELSEIF(&args[0] = "stop")
     UNSET(@timebot_active)
     STOP("timebot_d")
@@ -69,9 +71,9 @@ ELSEIF(&args[0] = "end")
     EXEC("timebot.txt","timebot","start")
 ELSEIF(&args[0] = "say")
     IF(@timebot_active)
-        ECHO("%@&timebot_prefix% %&human_time%")
+        ECHO("%@&timebot_prefix% %&human_time% [&k%&random%&r]")
     ELSE
-        ECHO("%@&timebot_prefix% %&human_time% (paused)")
+        ECHO("%@&timebot_prefix% %&human_time% (paused) [&k%&random%&r]")
     ENDIF
 ELSEIF(&args[0] = "get")
     &str = "&r%@&timebot_prefix% %&human_time%"
