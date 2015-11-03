@@ -110,8 +110,8 @@ ELSEIF(&args[0] = "cmd")
         UNSET(@&timebot_cmd)
         LOG("&r%@&timebot_prefix% command reset")
     ENDIF
-ELSEIF($args[0] = "getcmd")
-    LOG("cmd: %@&timebot_cmd%")
+ELSEIF(&args[0] = "getcmd")
+    LOG("&r%@&timebot_prefix% cmd: %@&timebot_cmd%")
 ELSE
     LOG("&r%@&timebot_prefix% usage: /!timebot <set|add|rem> <Xm|Xs|XmXs>|stop|start|end|say|get|mute [on|off]|prefix [prefix]|cmd [command|-file]|getcmd")
 ENDIF
