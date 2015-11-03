@@ -28,7 +28,7 @@ IF(&args[0] = "set")
     MATCH(%&args[1]%,"(\d+)s",#sec,1)
     @#timebot_time = (#min * 60) + #sec
     LOG("&r%@&timebot_prefix% set to:")
-    EXEC("timebot.txt","timebot","get")
+    EXEC("timebot.txt","timebot","stat")
 ELSEIF(&args[0] = "start")
     SET(@timebot_active)
     STOP("timebot_d")
@@ -46,7 +46,7 @@ ELSEIF(&args[0] = "add")
     #temp_time = (#min * 60) + #sec
     INC(@#timebot_time,%#temp_time%)
     LOG("&r%@&timebot_prefix% added %&args[1]%, now is:")
-    EXEC("timebot.txt","timebot","get")
+    EXEC("timebot.txt","timebot","stat")
 ELSEIF(&args[0] = "rem")
     UNSET(#min)
     UNSET(#sec)
@@ -59,7 +59,7 @@ ELSEIF(&args[0] = "rem")
         @#timebot_time = 0
     ENDIF
     LOG("&r%@&timebot_prefix% removed %&args[1]%, now is:")
-    EXEC("timebot.txt","timebot","get")
+    EXEC("timebot.txt","timebot","stat")
 ELSEIF(&args[0] = "end")
     LOG("&r%@&timebot_prefix% ending...")
     @#timebot_time = 0
