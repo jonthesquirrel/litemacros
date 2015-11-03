@@ -1,5 +1,6 @@
 DO
-    EXEC("timebot.txt","timebot","say")
+    //announce only if at certain interval
+        EXEC("timebot.txt","timebot","say")
     DEC(@#timebot_time)
     WAIT(1)
 UNTIL(@#timebot_time < 1)
@@ -7,4 +8,7 @@ UNTIL(@#timebot_time < 1)
 UNSET(@timebot_active)
 ECHO("%@&timebot_prefix% TIME UP!")
 //WAIT("500ms")
-IF(@&timebot_cmd);ECHO(@&timebot_cmd);ENDIF
+IF(@&timebot_cmd)
+    ECHO("%@&timebot_cmd%")
+ENDIF
+//if [-]cmd then EXEC("timebot_cmd_[cmd].txt","timebot_cmd")
