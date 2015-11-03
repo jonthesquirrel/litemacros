@@ -1,0 +1,10 @@
+//loop until (time < 1)
+DO
+    DEC(@#timebot_time)
+    WAIT(1)
+UNTIL(@#timebot_time < 1)
+
+//finish
+ECHO("<timebot> TIME UP!")
+WAIT("500ms")
+IF(@&timebot_cmd);ECHO(@&timebot_cmd);ENDIF
