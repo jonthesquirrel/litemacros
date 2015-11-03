@@ -21,7 +21,7 @@ ELSE
     &human_time = "0s"
 ENDIF
 RANDOM(#rand,99999999,11111111)
-&random = "%#rand%"
+&random = "&o{%#rand%}"
 
 IF(&args[0] = "set")
     UNSET(#min)
@@ -71,9 +71,9 @@ ELSEIF(&args[0] = "end")
     EXEC("timebot.txt","timebot","start")
 ELSEIF(&args[0] = "say")
     IF(@timebot_active)
-        ECHO("%@&timebot_prefix% %&human_time% &r&o[&k&o%&random%&r&o]")
+        ECHO("%@&timebot_prefix% %&human_time% %&random%")
     ELSE
-        ECHO("%@&timebot_prefix% %&human_time% (paused) &r&o[&k&o%&random%&r&o]")
+        ECHO("%@&timebot_prefix% %&human_time% (paused) %&random%")
     ENDIF
 ELSEIF(&args[0] = "get")
     &str = "&r%@&timebot_prefix% %&human_time%"
