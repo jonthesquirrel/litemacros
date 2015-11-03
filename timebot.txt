@@ -108,7 +108,7 @@ ELSEIF(&args[0] = "cmd")
         LOG("&r%@&timebot_prefix% command set: %@&timebot_cmd%")
     ELSE
         UNSET(@&timebot_cmd)
-        LOG("&r%@&timebot_prefix% command reset")
+        LOG("&r%@&timebot_prefix% command removed")
     ENDIF
 ELSEIF(&args[0] = "getcmd")
     LOG("&r%@&timebot_prefix% cmd: %@&timebot_cmd%")
