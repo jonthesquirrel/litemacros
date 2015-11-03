@@ -5,6 +5,7 @@ DO
 UNTIL(@#timebot_time < 1)
 
 //finish
-ECHO("<timebot> TIME UP!")
+UNSET(@timebot_active)
+ECHO("%@&timebot_prefix% TIME UP!")
 WAIT("500ms")
 IF(@&timebot_cmd);ECHO(@&timebot_cmd);ENDIF
