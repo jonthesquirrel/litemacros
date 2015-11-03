@@ -20,15 +20,14 @@ ELSE
 ENDIF
 
 IF(&args[0] = "set")
-    EXEC("timebot.txt","timebot","halt")
+    STOP("timebot_d")
     UNSET(@#timebot_time)
     UNSET(#min)
     UNSET(#sec)
     MATCH(%&args[1]%,"(\d+)m",#min,1)
     MATCH(%&args[1]%,"(\d+)s",#sec,1)
     @#timebot_time = (#min * 60) + #sec
-    LOG("&r%@&timebot_prefix% set to %&args[1]% and started")
-    EXEC("timebot_d.txt","timebot_d")
+    LOG("&r%@&timebot_prefix% set to %&args[1]%")
 ELSEIF(&args[0] = "start")
     EXEC("timebot_d.txt","timebot_d")
     LOG("&r%@&timebot_prefix% started")
