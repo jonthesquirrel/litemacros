@@ -1,2 +1,8 @@
 //TODO: anti-spam wait lock?
-EXEC("timebot.txt","timebot","say")
+WAIT("500ms")
+IF(@timebot_active)
+    EXEC("timebot.txt","timebot","say")
+ELSE
+    TIME(&time,"hh:mm")
+    ECHO("%@&timebot_prefix% timer off. Current time is %&time% CDT")
+ENDIF
