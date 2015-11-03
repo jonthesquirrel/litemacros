@@ -1,11 +1,10 @@
-//loop until (time < 1)
 DO
+    EXEC("timebot.txt","timebot","say")
     DEC(@#timebot_time)
     WAIT(1)
 UNTIL(@#timebot_time < 1)
 
-//finish
 UNSET(@timebot_active)
 ECHO("%@&timebot_prefix% TIME UP!")
-WAIT("500ms")
+//WAIT("500ms")
 IF(@&timebot_cmd);ECHO(@&timebot_cmd);ENDIF
