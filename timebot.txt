@@ -28,7 +28,7 @@ IF(&args[0] = "set")
     MATCH(%&args[1]%,"(\d+)s",#sec,1)
     @#timebot_time = (#min * 60) + #sec
     LOG("&r%@&timebot_prefix% set to:")
-    EXEC("timebot.txt","timebot","stat")
+    EXEC("timebot.txt","timebot","get")
 ELSEIF(&args[0] = "start")
     STOP("timebot_d")
     SET(@timebot_active)
@@ -46,7 +46,7 @@ ELSEIF(&args[0] = "add")
     #temp_time = (#min * 60) + #sec
     INC(@#timebot_time,%#temp_time%)
     LOG("&r%@&timebot_prefix% added %&args[1]%, now is:")
-    EXEC("timebot.txt","timebot","stat")
+    EXEC("timebot.txt","timebot","get")
 ELSEIF(&args[0] = "rem")
     UNSET(#min)
     UNSET(#sec)
@@ -59,7 +59,7 @@ ELSEIF(&args[0] = "rem")
         @#timebot_time = 0
     ENDIF
     LOG("&r%@&timebot_prefix% removed %&args[1]%, now is:")
-    EXEC("timebot.txt","timebot","stat")
+    EXEC("timebot.txt","timebot","get")
 ELSEIF(&args[0] = "end")
     LOG("&r%@&timebot_prefix% ending...")
     @#timebot_time = 0
@@ -70,19 +70,14 @@ ELSEIF(&args[0] = "say")
     ELSE
         ECHO("%@&timebot_prefix% %&human_time% (paused)")
     ENDIF
-ELSEIF(&args[0] = "stat")
-    &str = "&r%@&timebot_prefix%"
-    &str = "%&str% %&human_time%"
+ELSEIF(&args[0] = "get")
+    &str = "&r%@&timebot_prefix% %&human_time%"
     IF(!@timebot_active)
         &str = "%&str% (paused)"
     ENDIF
     IF(@timebot_mute)
         &str = "%&str% [muted]"
     ENDIF
-    IF(@&timebot_cmd)
-        &str = "%&str% [cmd: %@&timebot_cmd% ]"
-    ENDIF
-
     LOG("%&str%")
 ELSEIF(&args[0] = "mute")
     IF(&args[1] = "on")
@@ -115,6 +110,8 @@ ELSEIF(&args[0] = "cmd")
         UNSET(@&timebot_cmd)
         LOG("&r%@&timebot_prefix% command reset")
     ENDIF
+ELSEIF($args[0] = "getcmd")
+    LOG("cmd: %@&timebot_cmd%")
 ELSE
-    LOG("&r%@&timebot_prefix% usage: /!timebot <set|add|rem> <Xm|Xs|XmXs>|stop|start|end|say|stat|mute [on|off]|prefix [prefix]|cmd [command|-file]")
+    LOG("&r%@&timebot_prefix% usage: /!timebot <set|add|rem> <Xm|Xs|XmXs>|stop|start|end|say|get|mute [on|off]|prefix [prefix]|cmd [command|-file]|getcmd")
 ENDIF
