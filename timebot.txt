@@ -5,6 +5,8 @@ IF(!@&timebot_prefix)
 ENDIF
 
 IF(@#timebot_time > 0)
+    UNSET(#min)
+    UNSET(#sec)
     //modulo
     #min = ((@#timebot_time - (@#timebot_time-(60*(@#timebot_time/60)))) / 60)
     #sec = (@#timebot_time-(60*(@#timebot_time/60)))
@@ -20,18 +22,20 @@ ELSE
 ENDIF
 
 IF(&args[0] = "set")
-    STOP("timebot_d")
-    UNSET(@#timebot_time)
     UNSET(#min)
     UNSET(#sec)
     MATCH(%&args[1]%,"(\d+)m",#min,1)
     MATCH(%&args[1]%,"(\d+)s",#sec,1)
     @#timebot_time = (#min * 60) + #sec
-    LOG("&r%@&timebot_prefix% set to %&args[1]%")
+    LOG("&r%@&timebot_prefix% set to:")
+    EXEC("timebot.txt","timebot","get")
 ELSEIF(&args[0] = "start")
+    SET(@timebot_active)
+    STOP("timebot_d")
     EXEC("timebot_d.txt","timebot_d")
     LOG("&r%@&timebot_prefix% started")
 ELSEIF(&args[0] = "stop")
+    UNSET(@timebot_active)
     STOP("timebot_d")
     LOG("&r%@&timebot_prefix% stopped")
 ELSEIF(&args[0] = "end")
@@ -44,7 +48,8 @@ ELSEIF(&args[0] = "add")
     MATCH(%&args[1]%,"(\d+)s",#sec,1)
     #temp_time = (#min * 60) + #sec
     INC(@#timebot_time,%#temp_time%)
-    LOG("&r%@&timebot_prefix% added %&args[1]% to %&human_time%")
+    LOG("&r%@&timebot_prefix% added %&args[1]%, now is:")
+    EXEC("timebot.txt","timebot","get")
 ELSEIF(&args[0] = "rem")
     UNSET(#min)
     UNSET(#sec)
@@ -56,7 +61,8 @@ ELSEIF(&args[0] = "rem")
     ELSE
         @#timebot_time = 0
     ENDIF
-    LOG("&r%@&timebot_prefix% removed %&args[1]% from %&human_time%")
+    LOG("&r%@&timebot_prefix% removed %&args[1]%, now is:")
+    EXEC("timebot.txt","timebot","get")
 ELSEIF(&args[0] = "end")
     @#timebot_time = 0
 ELSEIF(&args[0] = "say")
