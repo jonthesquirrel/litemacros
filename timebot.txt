@@ -71,9 +71,9 @@ ELSEIF(&args[0] = "end")
     EXEC("timebot.txt","timebot","start")
 ELSEIF(&args[0] = "say")
     IF(@timebot_active)
-        ECHO("%@&timebot_prefix% %&human_time% [&k%&random%&r]")
+        ECHO("%@&timebot_prefix% %&human_time% &r&o[&k&o%&random%&r&o]")
     ELSE
-        ECHO("%@&timebot_prefix% %&human_time% (paused) [&k%&random%&r]")
+        ECHO("%@&timebot_prefix% %&human_time% (paused) &r&o[&k&o%&random%&r&o]")
     ENDIF
 ELSEIF(&args[0] = "get")
     &str = "&r%@&timebot_prefix% %&human_time%"
