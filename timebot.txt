@@ -21,7 +21,7 @@ ELSE
     &human_time = "0s"
 ENDIF
 RANDOM(#rand,99999999,11111111)
-&random = "&o{%#rand%}"
+&random = "&r{&k&o%#rand%&r}"
 
 IF(&args[0] = "set")
     UNSET(#min)
